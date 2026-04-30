@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiroo - Gamificación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --accent-red: #ff1a1a;
+            --card-gray: #33302e;
+            --text-white: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 80px;
+        }
+
+        .btn-back {
+            color: var(--accent-red);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            opacity: 0.8;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .games-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .row {
+            display: flex;
+            gap: 100px;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .game-card {
+            width: 280px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-top {
+            background-color: var(--accent-red);
+            height: 100px;
+            border-radius: 25px 25px 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(255, 26, 26, 0.3);
+        }
+
+        .card-top i {
+            font-size: 3.5rem;
+            color: white;
+        }
+
+        .card-bottom {
+            background-color: var(--card-gray);
+            height: 80px;
+            border-radius: 0 0 25px 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+
+        .fa-steering-wheel-custom {
+            border: 3px solid white;
+            border-radius: 50%;
+            padding: 8px;
+            font-size: 2.5rem !important;
+        }
+
+        @media (max-width: 700px) {
+            .row {
+                gap: 30px;
+            }
+            .top-nav {
+                flex-direction: column;
+                gap: 20px;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <a href="index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Volver al inicio
+        </a>
+        <div class="page-title">
+            <i class="fa-solid fa-gamepad"></i> Gamificación
+        </div>
+    </div>
+
+    <main class="games-container">
+        <div class="row">
+            <a href="#" class="game-card">
+                <div class="card-top">
+                    <i class="fa-regular fa-comment-dots"></i>
+                </div>
+                <div class="card-bottom">Quizz de autos</div>
+            </a>
+
+            <a href="#" class="game-card">
+                <div class="card-top">
+                    <i class="fa-regular fa-copy"></i>
+                </div>
+                <div class="card-bottom">Memorama de partes</div>
+            </a>
+        </div>
+
+        <div class="row">
+            <a href="#" class="game-card">
+                <div class="card-top">
+                    <i class="fa-solid fa-dharmachakra fa-steering-wheel-custom"></i>
+                </div>
+                <div class="card-bottom">Simulador</div>
+            </a>
+        </div>
+    </main>
+
+</body>
+</html>

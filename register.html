@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiroo - Registro de Cuenta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --kiroo-red: #d32f2f;
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+            --client-blue: #2196f3;
+            --mech-orange: #ff9800;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at top, rgba(211, 47, 47, 0.08) 0%, transparent 60%),
+                        var(--bg-dark);
+            padding: 2rem;
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--kiroo-red);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            transition: opacity 0.2s;
+        }
+
+        .back-home:hover {
+            opacity: 0.8;
+            color: var(--kiroo-red);
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .register-header .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .register-header .logo span {
+            color: var(--kiroo-red);
+        }
+
+        .register-header h5 {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Tabs estilo selector de cuenta */
+        .account-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .account-tab {
+            background: transparent;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 40px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .account-tab i {
+            margin-right: 8px;
+        }
+
+        .account-tab.active {
+            background: rgba(211, 47, 47, 0.15);
+            color: var(--kiroo-red);
+        }
+
+        .account-tab:not(.active):hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        /* Tarjeta de registro */
+        .register-card {
+            background: var(--bg-card);
+            border-radius: 30px;
+            padding: 2rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-label {
+            color: #ccc;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .form-control, .form-select {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: #333;
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: #666;
+        }
+
+        .form-select option {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        /* Estilos específicos por tipo de cuenta */
+        .client-focus .form-control:focus {
+            border-color: var(--client-blue);
+            box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.15);
+        }
+
+        .mechanic-focus .form-control:focus,
+        .mechanic-focus .form-select:focus {
+            border-color: var(--mech-orange);
+            box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.15);
+        }
+
+        .btn-register {
+            background: linear-gradient(135deg, var(--kiroo-red), #b71c1c);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(211, 47, 47, 0.3);
+        }
+
+        .error-message {
+            background: rgba(244, 67, 54, 0.15);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            color: #ef5350;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .login-link a {
+            color: var(--kiroo-red);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .account-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(211, 47, 47, 0.1);
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .info-box {
+            background: rgba(211, 47, 47, 0.08);
+            border: 1px dashed rgba(211, 47, 47, 0.3);
+            border-radius: 12px;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 576px) {
+            .register-wrapper {
+                padding: 0.5rem;
+            }
+            .register-card {
+                padding: 1.5rem;
+            }
+            .account-tab {
+                padding: 8px 18px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-wrapper">
+    <a href="login.html" class="back-home">
+        <i class="fa-solid fa-arrow-left"></i> Volver al login
+    </a>
+
+    <div class="register-header">
+        <div class="logo">KI<span>R</span>OO</div>
+        <h5>Únete a nuestra comunidad</h5>
+    </div>
+
+    <!-- Selector de tipo de cuenta estilo pestañas -->
+    <div class="account-tabs">
+        <button class="account-tab active" data-type="cliente">
+            <i class="fa-solid fa-user"></i> Cliente
+        </button>
+        <button class="account-tab" data-type="mecanico">
+            <i class="fa-solid fa-wrench"></i> Mecánico
+        </button>
+    </div>
+
+    <div class="register-card" id="registerCard">
+        <div class="text-center mb-3">
+            <i class="fa-solid fa-user-plus fa-2x" id="formIcon" style="color: var(--kiroo-red);"></i>
+            <h4 class="mt-2" id="formTitle">Registro de Cliente</h4>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
+            <span id="errorText"></span>
+        </div>
+
+        <form id="registerForm">
+            <!-- Campos comunes para ambos tipos -->
+            <div class="mb-3">
+                <label class="form-label">Nombre de usuario *</label>
+                <input type="text" class="form-control" id="username" placeholder="Ej: juan_perez" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Correo electrónico *</label>
+                <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre completo *</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Tu nombre completo" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Teléfono *</label>
+                <input type="tel" class="form-control" id="phone" placeholder="+503 1234 5678" required>
+            </div>
+
+            <!-- Campos específicos de CLIENTE -->
+            <div id="clientFields">
+                <div class="mb-3">
+                    <label class="form-label">Vehículo principal (marca/modelo/placa)</label>
+                    <input type="text" class="form-control" id="vehicleInfo" placeholder="Ej: Toyota Corolla P-1234">
+                    <small class="text-muted">Opcional, puedes agregar más después</small>
+                </div>
+            </div>
+
+            <!-- Campos específicos de MECÁNICO -->
+            <div id="mechanicFields" style="display: none;">
+                <div class="mb-3">
+                    <label class="form-label">Especialidad *</label>
+                    <select class="form-select" id="specialty">
+                        <option value="" disabled selected>Selecciona tu especialidad</option>
+                        <option value="general">🔧 Mecánica General</option>
+                        <option value="frenos">🛑 Sistema de Frenos</option>
+                        <option value="electrico">⚡ Sistema Eléctrico</option>
+                        <option value="motor">⚙️ Motor y Transmisión</option>
+                        <option value="suspension">🔩 Suspensión y Dirección</option>
+                        <option value="carroceria">🚗 Carrocería y Pintura</option>
+                        <option value="otro">📌 Otra especialidad</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre del taller (opcional)</label>
+                    <input type="text" class="form-control" id="workshopName" placeholder="Nombre de tu taller">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Años de experiencia</label>
+                    <input type="number" class="form-control" id="experience" placeholder="Ej: 5" min="0" max="50">
+                </div>
+            </div>
+
+            <!-- Campos de contraseña (comunes) -->
+            <div class="mb-3">
+                <label class="form-label">Contraseña *</label>
+                <input type="password" class="form-control" id="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Confirmar contraseña *</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Repite tu contraseña" required>
+            </div>
+
+            <div class="info-box" id="infoBox">
+                <i class="fa-solid fa-circle-info me-2"></i>
+                <span id="infoText">Podrás agregar más vehículos y gestionar tu historial desde tu panel de cliente</span>
+            </div>
+
+            <button type="submit" class="btn-register" id="submitBtn">
+                <i class="fa-solid fa-user-plus me-2"></i> Crear cuenta
+            </button>
+        </form>
+
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Estado actual del tipo de cuenta
+    let currentUserType = 'cliente'; // 'cliente' o 'mecanico'
+
+    // Elementos del DOM
+    const errorDiv = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+    const registerForm = document.getElementById('registerForm');
+    const formTitle = document.getElementById('formTitle');
+    const formIcon = document.getElementById('formIcon');
+    const clientFields = document.getElementById('clientFields');
+    const mechanicFields = document.getElementById('mechanicFields');
+    const infoText = document.getElementById('infoText');
+    const tabs = document.querySelectorAll('.account-tab');
+    const registerCard = document.getElementById('registerCard');
+
+    // Elementos de formulario
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const fullNameInput = document.getElementById('fullName');
+    const phoneInput = document.getElementById('phone');
+    const vehicleInfoInput = document.getElementById('vehicleInfo');
+    const specialtySelect = document.getElementById('specialty');
+    const workshopNameInput = document.getElementById('workshopName');
+    const experienceInput = document.getElementById('experience');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    function showError(msg) {
+        errorText.textContent = msg;
+        errorDiv.classList.add('show');
+        setTimeout(() => {
+            errorDiv.classList.remove('show');
+        }, 5000);
+    }
+
+    function hideError() {
+        errorDiv.classList.remove('show');
+    }
+
+    // Actualizar UI según tipo de cuenta seleccionado
+    function updateUIForUserType() {
+        if (currentUserType === 'cliente') {
+            formTitle.innerHTML = 'Registro de Cliente';
+            formIcon.style.color = '#2196f3';
+            formIcon.className = 'fa-solid fa-user-plus fa-2x';
+            clientFields.style.display = 'block';
+            mechanicFields.style.display = 'none';
+            infoText.innerHTML = 'Podrás agregar más vehículos y gestionar tu historial desde tu panel de cliente';
+            
+            // Quitar required de campos de mecánico
+            specialtySelect.removeAttribute('required');
+            workshopNameInput.removeAttribute('required');
+            experienceInput.removeAttribute('required');
+            
+            // Poner required a campos de cliente (solo vehicleInfo es opcional)
+            vehicleInfoInput.removeAttribute('required');
+            
+            registerCard.classList.remove('mechanic-focus');
+            registerCard.classList.add('client-focus');
+        } else {
+            formTitle.innerHTML = 'Registro de Mecánico';
+            formIcon.style.color = '#ff9800';
+            formIcon.className = 'fa-solid fa-wrench fa-2x';
+            clientFields.style.display = 'none';
+            mechanicFields.style.display = 'block';
+            infoText.innerHTML = 'Tu perfil será visible para los clientes que busquen mecánicos de confianza';
+            
+            // Poner required a campos de mecánico
+            specialtySelect.setAttribute('required', 'required');
+            
+            // Quitar required de campos de cliente
+            vehicleInfoInput.removeAttribute('required');
+            
+            registerCard.classList.remove('client-focus');
+            registerCard.classList.add('mechanic-focus');
+        }
+
+        // Actualizar clase activa en tabs
+        tabs.forEach(tab => {
+            const tabType = tab.getAttribute('data-type');
+            if (tabType === currentUserType) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    // Validar formulario según tipo
+    function validateForm() {
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const fullName = fullNameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (!username || !email || !fullName || !phone || !password) {
+            showError('Por favor completa todos los campos obligatorios.');
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            showError('Las contraseñas no coinciden.');
+            return false;
+        }
+
+        if (password.length < 6) {
+            showError('La contraseña debe tener al menos 6 caracteres.');
+            return false;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showError('Ingresa un correo electrónico válido.');
+            return false;
+        }
+
+        // Validaciones específicas para mecánico
+        if (currentUserType === 'mecanico') {
+            const specialty = specialtySelect.value;
+            if (!specialty) {
+                showError('Por favor selecciona tu especialidad.');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Enviar registro al backend
+    async function submitRegistration() {
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const fullName = fullNameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const password = passwordInput.value;
+
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Creando cuenta...';
+        submitBtn.disabled = true;
+
+        try {
+            let formData = new FormData();
+            
+            if (currentUserType === 'cliente') {
+                const vehicleInfo = vehicleInfoInput.value.trim();
+                formData.append('action', 'register_cliente');
+                formData.append('vehicle_info', vehicleInfo);
+            } else {
+                const specialty = specialtySelect.value;
+                const workshopName = workshopNameInput.value.trim();
+                const experience = experienceInput.value;
+                formData.append('action', 'register_mecanico');
+                formData.append('specialty', specialty);
+                formData.append('workshop_name', workshopName);
+                formData.append('experience', experience);
+            }
+
+            formData.append('username', username);
+            formData.append('email', email);
+            formData.append('full_name', fullName);
+            formData.append('phone', phone);
+            formData.append('password', password);
+            formData.append('confirm_password', password);
+
+            const response = await fetch('auth.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                window.location.href = result.redirect;
+            } else {
+                showError(result.message);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showError('Error de conexión. Intenta nuevamente.');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    }
+
+    // Evento submit del formulario
+    registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        hideError();
+
+        if (validateForm()) {
+            await submitRegistration();
+        }
+    });
+
+    // Cambio entre pestañas: cliente / mecánico
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const selectedType = this.getAttribute('data-type');
+            if (selectedType === currentUserType) return;
+            currentUserType = selectedType;
+            hideError();
+            // Limpiar campos al cambiar de tipo
+            usernameInput.value = '';
+            emailInput.value = '';
+            fullNameInput.value = '';
+            phoneInput.value = '';
+            vehicleInfoInput.value = '';
+            specialtySelect.value = '';
+            workshopNameInput.value = '';
+            experienceInput.value = '';
+            passwordInput.value = '';
+            confirmPasswordInput.value = '';
+            updateUIForUserType();
+        });
+    });
+
+    // Inicializar UI
+    updateUIForUserType();
+</script>
+</body>
+</html>

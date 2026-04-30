@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiroo - Card Album</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --accent-red: #ff0000;
+            --card-gradient: linear-gradient(135deg, #4d1d14 0%, #ff0000 100%);
+            --overlay-dark: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-weight: bold;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+        }
+
+        .btn-back {
+            color: var(--accent-red);
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            opacity: 0.8;
+        }
+
+        .album-title {
+            background: var(--card-gradient);
+            padding: 15px 80px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin: 0 auto;
+            display: block;
+            width: fit-content;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .grid-album {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1100px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .card {
+            height: 260px;
+            border-radius: 35px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card-red { background: var(--card-gradient); }
+        
+        .card-img { 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-number {
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 0.8rem;
+            line-height: 1.3;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .card-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+
+        .img-label {
+            margin-top: auto;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 800px) {
+            .grid-album {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            body {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .grid-album {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Inicio
+        </a>
+        <div class="brand">KIROO</div>
+    </header>
+
+    <div class="album-title">Card album</div>
+
+    <div class="grid-album">
+        <div class="card card-red">
+            <div class="card-number">01</div>
+            <h3>What to do if...?</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mollis ac orci sed hendrerit. Suspendisse ac ornare enim.</p>
+        </div>
+
+        <div class="card card-img" style="background-image: linear-gradient(var(--overlay-dark), var(--overlay-dark)), url('https://images.unsplash.com/photo-1486006396193-471fa7f5d301?auto=format&fit=crop&q=80&w=500');">
+            <div class="card-number">02</div>
+            <p class="img-label">5 tips to keep your car in good condition</p>
+        </div>
+
+        <div class="card card-red">
+            <div class="card-number">03</div>
+            <h3>Did you know...?</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mollis ac orci sed...</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/2061/2061956.png" class="card-icon" alt="engine">
+        </div>
+
+        <div class="card card-img" style="background-image: linear-gradient(var(--overlay-dark), var(--overlay-dark)), url('https://images.unsplash.com/photo-1549057442-32561845a2e7?auto=format&fit=crop&q=80&w=500');">
+            <div class="card-number">04</div>
+            <p class="img-label">Lorem Ipsum</p>
+        </div>
+
+        <div class="card card-red">
+            <div class="card-number">05</div>
+            <h3>Did you know...?</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mollis ac orci sed...</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/2082/2082613.png" class="card-icon" alt="battery">
+        </div>
+
+        <div class="card card-red">
+            <div class="card-number">06</div>
+            <h3>What to do if...?</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin mollis ac orci sed hendrerit. Suspendisse ac ornare enim.</p>
+        </div>
+    </div>
+
+</body>
+</html>
