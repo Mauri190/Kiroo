@@ -96,7 +96,7 @@ function handleRegisterCliente() {
         $_SESSION['user_type'] = 'cliente';
         $_SESSION['full_name'] = $fullName;
         
-        echo json_encode(['success' => true, 'message' => 'Registro exitoso', 'redirect' => 'dashboard_cliente.php']);
+        echo json_encode(['success' => true, 'message' => 'Registro exitoso', 'redirect' => 'index_cliente.html']);
         
     } catch(PDOException $e) {
         error_log("Error en registro cliente: " . $e->getMessage());
@@ -161,7 +161,7 @@ function handleRegisterMecanico() {
         $_SESSION['user_type'] = 'mecanico';
         $_SESSION['full_name'] = $fullName;
         
-        echo json_encode(['success' => true, 'message' => 'Registro exitoso', 'redirect' => 'dashboard_mecanico.php']);
+        echo json_encode(['success' => true, 'message' => 'Registro exitoso', 'redirect' => 'index_mecanico.html']);
         
     } catch(PDOException $e) {
         error_log("Error en registro mecánico: " . $e->getMessage());
@@ -172,6 +172,7 @@ function handleRegisterMecanico() {
 function handleLogin() {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
+    $user_type_requested = trim($_POST['user_type'] ?? ''); // 'cliente' o 'mecanico'
     
     if (empty($username) || empty($password)) {
         echo json_encode(['success' => false, 'message' => 'Usuario y contraseña son obligatorios']);
@@ -186,6 +187,18 @@ function handleLogin() {
         $user = $stmt->fetch();
         
         if ($user && password_verify($password, $user['password_hash'])) {
+            // VERIFICACIÓN DEL TIPO DE USUARIO
+            if (!empty($user_type_requested) && $user['user_type'] !== $user_type_requested) {
+                // El usuario existe pero está intentando iniciar sesión con el tipo equivocado
+                $tipo_real = $user['user_type'] === 'cliente' ? 'Cliente' : 'Mecánico';
+                $tipo_intentado = $user_type_requested === 'cliente' ? 'Cliente' : 'Mecánico';
+                echo json_encode([
+                    'success' => false, 
+                    'message' => "Tu cuenta es de tipo {$tipo_real}. Por favor selecciona la opción {$tipo_real} para iniciar sesión."
+                ]);
+                return;
+            }
+            
             // Actualizar último login
             $updateStmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
             $updateStmt->execute([$user['id']]);
@@ -195,9 +208,15 @@ function handleLogin() {
             $_SESSION['user_type'] = $user['user_type'];
             $_SESSION['full_name'] = $user['full_name'];
             
-            $redirect = $user['user_type'] === 'cliente' ? 'dashboard_cliente.php' : 'dashboard_mecanico.php';
+            // REDIRECCIÓN A LOS NUEVOS INDEX SEGÚN TIPO
+            $redirect = $user['user_type'] === 'cliente' ? 'index_cliente.html' : 'index_mecanico.html';
             
-            echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso', 'redirect' => $redirect]);
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Inicio de sesión exitoso', 
+                'redirect' => $redirect,
+                'user_type' => $user['user_type']
+            ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos']);
         }

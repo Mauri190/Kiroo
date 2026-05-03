@@ -170,6 +170,21 @@
             display: block;
         }
 
+        .warning-message {
+            background: rgba(255, 152, 0, 0.15);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            color: #ffa726;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .warning-message.show {
+            display: block;
+        }
+
         .register-link {
             text-align: center;
             margin-top: 2rem;
@@ -244,6 +259,11 @@
             <span id="errorText"></span>
         </div>
 
+        <div class="warning-message" id="warningMessage">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+            <span id="warningText"></span>
+        </div>
+
         <form id="loginForm">
             <div class="mb-3">
                 <input type="text" class="form-control" id="username" placeholder="Usuario o Email" required>
@@ -275,6 +295,8 @@
     // Elementos del DOM
     const errorDiv = document.getElementById('errorMessage');
     const errorText = document.getElementById('errorText');
+    const warningDiv = document.getElementById('warningMessage');
+    const warningText = document.getElementById('warningText');
     const loginForm = document.getElementById('loginForm');
     const formTitle = document.getElementById('formTitle');
     const badgeTextSpan = document.getElementById('badgeText');
@@ -286,10 +308,18 @@
     function showError(msg) {
         errorText.textContent = msg;
         errorDiv.classList.add('show');
+        warningDiv.classList.remove('show');
     }
 
-    function hideError() {
+    function showWarning(msg) {
+        warningText.textContent = msg;
+        warningDiv.classList.add('show');
         errorDiv.classList.remove('show');
+    }
+
+    function hideMessages() {
+        errorDiv.classList.remove('show');
+        warningDiv.classList.remove('show');
     }
 
     // Actualizar la interfaz según el tipo de cuenta seleccionado (cliente/mecánico)
@@ -317,17 +347,14 @@
         });
     }
 
-    // Función que ejecuta el login llamando a auth.php (misma lógica que el login corto)
+    // Función que ejecuta el login llamando a auth.php
     async function performLogin(username, password, userType) {
-        // Creamos FormData y enviamos acción 'login' junto con el username, password y además el tipo de cuenta
-        // Si tu backend auth.php ya distingue por tipo de usuario o requiere el campo 'role', se lo mandamos.
-        // Para mantener compatibilidad total con el login corto y al mismo tiempo informar al backend qué tipo intenta entrar,
-        // añadimos un campo adicional 'user_type'. Tu backend puede ignorarlo si unifica login, o usarlo para redirigir.
+        // Creamos FormData y enviamos acción 'login' junto con el username, password y user_type
         const formData = new FormData();
         formData.append('action', 'login');
         formData.append('username', username);
         formData.append('password', password);
-        formData.append('user_type', userType);   // extra: cliente o mecanico
+        formData.append('user_type', userType);
 
         try {
             const response = await fetch('auth.php', {
@@ -338,20 +365,37 @@
             const result = await response.json();
 
             if (result.success) {
-                // Redirigir según lo que devuelva el backend, o si no viene redirect específico, podemos construir destino
-                // Si el backend retorna 'redirect' como en el login corto, se usa.
+                // Redirigir según lo que devuelva el backend
                 if (result.redirect) {
                     window.location.href = result.redirect;
                 } else {
-                    // fallback inteligente: según userType redirigir a dashboard genérico
+                    // fallback inteligente: según userType redirigir a los nuevos index
                     if (currentUserType === 'cliente') {
-                        window.location.href = 'dashboard_cliente.html';
+                        window.location.href = 'index_cliente.html';
                     } else {
-                        window.location.href = 'dashboard_mecanico.html';
+                        window.location.href = 'index_mecanico.html';
                     }
                 }
             } else {
-                showError(result.message || 'Credenciales incorrectas. Verifica tus datos.');
+                // Verificar si es un error de tipo de cuenta
+                if (result.message && result.message.includes('Tu cuenta es de tipo')) {
+                    showWarning(result.message);
+                    
+                    // Cambiar automáticamente a la pestaña correcta
+                    if (result.message.includes('Mecánico')) {
+                        if (currentUserType !== 'mecanico') {
+                            currentUserType = 'mecanico';
+                            updateUIForUserType();
+                        }
+                    } else if (result.message.includes('Cliente')) {
+                        if (currentUserType !== 'cliente') {
+                            currentUserType = 'cliente';
+                            updateUIForUserType();
+                        }
+                    }
+                } else {
+                    showError(result.message || 'Credenciales incorrectas. Verifica tus datos.');
+                }
             }
         } catch (error) {
             console.error('Error de conexión:', error);
@@ -362,7 +406,7 @@
     // Evento submit del formulario
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        hideError();
+        hideMessages();
 
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value;
@@ -389,19 +433,18 @@
             const selectedType = this.getAttribute('data-type');
             if (selectedType === currentUserType) return;
             currentUserType = selectedType;
-            // Limpiar error visual al cambiar de rol
-            hideError();
-            // Limpiar campos si se desea (opcional, mejora UX)
+            // Limpiar mensajes al cambiar de rol
+            hideMessages();
+            // Limpiar campos para mejorar UX
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             updateUIForUserType();
         });
     });
 
-    // Enlaces de registro: dependiendo del rol activo, podemos pre-seleccionar el formulario de registro correspondiente
+    // Enlaces de registro: redirigen a las páginas de registro correspondientes
     registerClientLink.addEventListener('click', function(e) {
         e.preventDefault();
-        // Redirigir a registro como Cliente (página existente o futura)
         window.location.href = 'registro_cliente.html';
     });
 
@@ -413,13 +456,21 @@
     // Inicializar UI con tipo por defecto: cliente
     updateUIForUserType();
 
-    // Pequeña mejora: si el usuario escribe credenciales y presiona Enter, funciona automáticamente.
-    // También se puede añadir efecto de foco.
+    // Permitir iniciar sesión con Enter en cualquier campo
+    document.getElementById('username').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('password').focus();
+        }
+    });
+
+    document.getElementById('password').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            loginForm.dispatchEvent(new Event('submit'));
+        }
+    });
 </script>
 
-<!-- Nota: se requiere tener auth.php funcionando igual que en la versión corta.
-     Este archivo debe procesar la petición POST con action=login, username, password y opcionalmente user_type,
-     y devolver JSON con { success: true, redirect: "url" } o { success: false, message: "error" }.
-     Se incluye compatibilidad total con el login corto. -->
 </body>
 </html>
