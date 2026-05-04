@@ -19,6 +19,9 @@ SET time_zone = "+00:00";
 
 --
 -- Base de datos: `kirooo_db`
+CREATE DATABASE kirooo_db;
+
+USE kirooo_db;  
 --
 
 -- --------------------------------------------------------

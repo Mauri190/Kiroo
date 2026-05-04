@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Bootstrap 5 (para estructura y componentes modernos sin sobrecarga visual) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Paleta inspirada en el index con más código - fondo rojo elegante y tarjetas oscuras */
         :root {
@@ -34,98 +35,181 @@
             color: var(--kiroo-text);
         }
 
-        /* Header más robusto, como el segundo diseño, pero conservando logo original */
-        .navbar-kiroo {
-            background-color: var(--kiroo-black);
-            padding: 0.8rem 2rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px; /* Reducido para dar espacio */
+    background-color: #000;
+    width: 100%;
+}
 
-        .logo-area {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 12px; /* Espacio ajustado para que quepan todos los botones */
+    align-items: center;
+}
 
-        .logo-text {
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #fff, #ffb8b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin: 0;
-            line-height: 1.2;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.3);
-        }
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.7rem; /* Tamaño de fuente optimizado */
+    font-weight: bold;
+    text-transform: uppercase;
+}
 
-        .logo-sub {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            background: rgba(255,255,255,0.15);
-            padding: 4px 10px;
-            border-radius: 40px;
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
+.nav-pill {
+    background-color: #a51313 !important; /* Resalta la página actual */
+    padding: 6px 14px;
+    border-radius: 15px;
+}
+.search-container {background: white;border-radius: 20px;padding: 5px 15px;display: flex;align-items: center;}
+.search-container input {border: none;outline: none;width: 100px;font-size: 0.7rem;}
+/* --- DISEÑO LOGIN / REGISTRO (Split Screen) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+/* --- PANEL IZQUIERDO  --- */
+.hero-panel {
+    flex: 1;
+    background-color: #a51313;
+    color: white;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+}
 
-        /* botón menú hamburguesa custom */
-        .navbar-dark .navbar-toggler {
-            border-color: rgba(255,255,255,0.5);
-        }
+.brand-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
 
-        /* navegación estilo segundo diseño */
-        .nav-link-custom {
-            color: rgba(255,255,255,0.85) !important;
-            font-weight: 500;
-            margin: 0 6px;
-            transition: all 0.2s;
-            border-radius: 8px;
-            padding: 8px 16px;
-        }
+.welcome-text {
+    margin-top: auto;
+    margin-bottom: auto; 
+    font-size: 3.5rem;
+    font-weight: 400;
+}
 
-        .nav-link-custom:hover, .nav-link-custom.active {
-            background-color: var(--kiroo-red);
-            color: white !important;
-            transform: translateY(-2px);
-        }
+/* --- PANEL DERECHO ) --- */
+.action-panel {
+    flex: 1.2;
+    background-color: #000;
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+}
 
-        /* Dropdown gear */
-        .btn-gear {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.4);
-            border-radius: 50%;
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            transition: all 0.2s;
-        }
+/* Navbar  */
+.top-navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 50px;
+    align-items: center;
+}
 
-        .btn-gear:hover {
-            background-color: var(--kiroo-red);
-            border-color: var(--kiroo-red);
-            transform: rotate(15deg);
-        }
+.nav-links {
+    display: flex;
+    list-style: none;
+}
 
-        .dropdown-menu-kiroo {
-            background-color: #121212;
-            border: 1px solid #333;
-        }
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 25px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
 
-        .dropdown-menu-kiroo .dropdown-item {
-            color: #eee;
-        }
+.search-container {
+    background: white;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+}
 
-        .dropdown-menu-kiroo .dropdown-item:hover {
-            background-color: var(--kiroo-red);
-            color: white;
-        }
+.search-container input {
+    border: none;
+    outline: none;
+    width: 100px;
+    font-size: 0.7rem;
+}
+
+
+.centering-wrapper {
+    flex: 1; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
+}
+ /* --- ESTILOS DE LOS MENÚS DESPLEGABLES (DROPDOWNS) --- */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    cursor: pointer;
+    padding: 10px 5px;
+}
+
+.dropdown-content {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    background-color: #1a1a1a; /* Fondo oscuro tecnológico */
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    z-index: 1001;
+    border-radius: 12px;
+    border: 1px solid #a51313; /* Borde rojo característico */
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.7rem;
+    text-align: left;
+    transition: 0.3s;
+    border-bottom: 1px solid #222;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #a51313; /* Fondo rojo al pasar el mouse */
+    color: white;
+}
+
+/* Mostrar el menú al pasar el mouse */
+.dropdown:hover .dropdown-content {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajuste del Header para que nada se encime */
+.main-header {
+    overflow: visible !important; /* IMPORTANTE para que se vea el dropdown */
+}
+
 
         /* main container */
         .main-container {
@@ -271,41 +355,44 @@
     </style>
 </head>
 <body>
-
-    <!-- Navbar mejorada similar al segundo index (con menú desplegable, dropdown y navegación) -->
-    <nav class="navbar navbar-dark navbar-kiroo">
-        <div class="container-fluid">
-            <div class="logo-area">
-                <h1 class="logo-text">KIROO</h1>
-                <div class="logo-sub">Your copilot, your safety</div>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-                    <li class="nav-item"><a class="nav-link-custom active" aria-current="page" href="index.html"><i class="fa-solid fa-house me-1"></i> Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link-custom" href="vehiculos.html"><i class="fa-solid fa-clipboard-list me-1"></i> Registro</a></li>
-                    <li class="nav-item"><a class="nav-link-custom" href="agenda.html"><i class="fa-regular fa-calendar-check me-1"></i> Agenda</a></li>
-                    <li class="nav-item"><a class="nav-link-custom" href="gamificacion.html"><i class="fa-solid fa-gamepad me-1"></i> Gamificación</a></li>
-                    <li class="nav-item"><a class="nav-link-custom" href="cartas.html"><i class="fa-solid fa-clone me-1"></i> Card album</a></li>
-                    <li class="nav-item"><a class="nav-link-custom" href="emergencias.html"><i class="fa-solid fa-phone-flip me-1"></i> Emergencias</a></li>
-                </ul>
-                <div class="dropdown ms-lg-3 mt-2 mt-lg-0">
-                    <button class="btn-gear dropdown-toggle" type="button" id="dropdownConfig" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-gear"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-kiroo dropdown-menu-end" aria-labelledby="dropdownConfig">
-                        <li><a class="dropdown-item" href="#"><i class="fa-regular fa-user me-2"></i> Mi perfil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-sliders me-2"></i> Preferencias</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión</a></li>
-                    </ul>
+ <header class="main-header">
+        <nav>
+        <ul class="nav-links">
+            <li><a href="home.html">HOME</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">APRENDER ▾</a>
+                <div class="dropdown-content">
+                    <a href="manual.html">Manual Técnico</a>
+                    <a href="videos.html">Videos Tutoriales</a>
+                    <a href="quiz.html">Quiz de Logros</a>
+                    <a href="card-album.html">Card Album</a>
                 </div>
-            </div>
-        </div>
-    </nav>
-
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">HERRAMIENTAS ▾</a>
+                <div class="dropdown-content">
+                    <a href="scaner.html">Escáner de Señales</a>
+                    <a href="vehiculos.html">Mis Vehículos</a>
+                    <a href="agenda.html">Agenda de Mantenimiento</a>
+                    <a href="gamificacion.html">Gamificacion</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">AYUDA ▾</a>
+                <div class="dropdown-content">
+                    <a href="emergencias.html">Números de Emergencia</a>
+                </div>
+            </li>
+            <li class="nav-separator">|</li>
+            <li>
+                <a href="perfil.html" class="profile-button">
+                    PERFIL
+                </a>
+            </li>
+        </ul>
+        </nav>
+        
+    </header>
     <!-- Contenido principal: Grid con 8 elementos en filas de 4 -->
     <main>
         <div class="container main-container">
