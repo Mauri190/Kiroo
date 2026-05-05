@@ -22,14 +22,9 @@
             --kiroo-hover: #2a2a2a;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, 'Roboto', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background: linear-gradient(145deg, var(--kiroo-red) 0%, #9e1e1e 100%);
             min-height: 100vh;
             color: var(--kiroo-text);
@@ -43,68 +38,8 @@
     background-color: #000;
     width: 100%;
 }
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 12px; /* Espacio ajustado para que quepan todos los botones */
-    align-items: center;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 0.7rem; /* Tamaño de fuente optimizado */
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.nav-pill {
-    background-color: #a51313 !important; /* Resalta la página actual */
-    padding: 6px 14px;
-    border-radius: 15px;
-}
-.search-container {background: white;border-radius: 20px;padding: 5px 15px;display: flex;align-items: center;}
-.search-container input {border: none;outline: none;width: 100px;font-size: 0.7rem;}
-/* --- DISEÑO LOGIN / REGISTRO (Split Screen) --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-}
-/* --- PANEL IZQUIERDO  --- */
-.hero-panel {
-    flex: 1;
-    background-color: #a51313;
-    color: white;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-}
-
-.brand-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-}
-
-.welcome-text {
-    margin-top: auto;
-    margin-bottom: auto; 
-    font-size: 3.5rem;
-    font-weight: 400;
-}
-
-/* --- PANEL DERECHO ) --- */
-.action-panel {
-    flex: 1.2;
-    background-color: #000;
-    position: relative; 
-    display: flex;
-    flex-direction: column;
-}
-
+  .brand-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 3px; color: white; }
+        .brand-name span { color: #a51313; }
 /* Navbar  */
 .top-navbar {
     position: absolute;
@@ -128,21 +63,6 @@
     font-size: 0.8rem;
     font-weight: bold;
 }
-
-.search-container {
-    background: white;
-    border-radius: 20px;
-    padding: 5px 15px;
-    display: flex;
-}
-
-.search-container input {
-    border: none;
-    outline: none;
-    width: 100px;
-    font-size: 0.7rem;
-}
-
 
 .centering-wrapper {
     flex: 1; 
@@ -356,6 +276,7 @@
 </head>
 <body>
  <header class="main-header">
+         <div class="brand-name">KI<span>R</span>OO</div>
         <nav>
         <ul class="nav-links">
             <li><a href="home.html">HOME</a></li>
